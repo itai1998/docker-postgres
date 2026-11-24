@@ -91,3 +91,36 @@ ALTER TABLE ONLY public.tag
 
 \unrestrict NdRDKKKw8GD1DSXye7ayJfp76i7Huivi4FLkgdCEcdx6atq8Ri0ADJxE2wUAm93
 
+
+
+--
+-- Name: task; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.task_task_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE public.task (
+    task_id text DEFAULT (nextval('public.task_task_id_seq'::regclass))::text NOT NULL,
+    task_no text NOT NULL,
+    title text NOT NULL,
+    description text DEFAULT ''::text NOT NULL,
+    note text DEFAULT ''::text NOT NULL,
+    status integer DEFAULT 1 NOT NULL,
+    priority integer DEFAULT 1 NOT NULL,
+    assignee text DEFAULT ''::text NOT NULL,
+    collaborator text[] DEFAULT '{}'::text[] NOT NULL,
+    creator text NOT NULL,
+    last_editor text NOT NULL,
+    due_date timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT task_pkey PRIMARY KEY (task_id),
+    CONSTRAINT task_task_no_key UNIQUE (task_no)
+);
+
+ALTER SEQUENCE public.task_task_id_seq OWNED BY public.task.task_id;
