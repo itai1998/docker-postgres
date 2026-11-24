@@ -124,3 +124,18 @@ CREATE TABLE public.task (
 );
 
 ALTER SEQUENCE public.task_task_id_seq OWNED BY public.task.task_id;
+
+
+--
+-- Name: task_tag; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.task_tag (
+    task_id text NOT NULL,
+    tag_id text NOT NULL,
+    CONSTRAINT task_tag_pkey PRIMARY KEY (task_id, tag_id),
+    CONSTRAINT task_tag_task_id_fkey FOREIGN KEY (task_id) REFERENCES public.task(task_id) ON DELETE CASCADE,
+    CONSTRAINT task_tag_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tag(tag_id) ON DELETE CASCADE
+);
+
+CREATE INDEX task_tag_tag_id_idx ON public.task_tag USING btree (tag_id);
